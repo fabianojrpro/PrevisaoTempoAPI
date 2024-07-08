@@ -7,11 +7,21 @@ import java.util.Scanner;
 
 public class WeatherService {
 
-    private static final String API_KEY = "861cdebea0083b4a9a824d7b94fc245d";
+    private final String apiKey;
+
+    public WeatherService(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
     private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
 
     public String getWeatherData(double lat, double lon) throws IOException {
-        String urlString = BASE_URL + "lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY;
+        if (apiKey == null || apiKey.isEmpty()) {
+            throw new IllegalArgumentException("API key is not set.");
+        }
+
+        String urlString = BASE_URL + "lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");

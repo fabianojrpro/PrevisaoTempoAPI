@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        String apiKey = System.getenv("API_KEY_PREV_TEMP");
+
         Scanner scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
 
@@ -16,7 +18,7 @@ public class Main {
         double longitude = scanner.nextDouble();
 
         try {
-            WeatherService weatherService = new WeatherService();
+            WeatherService weatherService = new WeatherService(apiKey);
             String response = weatherService.getWeatherData(latitude, longitude);
             if (response != null) {
                 WeatherData weatherData = WeatherDataParser.parseWeatherData(response);
